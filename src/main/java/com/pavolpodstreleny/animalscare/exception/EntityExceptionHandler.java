@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { PetDoesNotExistException.class, })
+    @ExceptionHandler(value = { PetDoesNotExistException.class, CustomerDoesNotExistException.class })
     protected ResponseEntity<Object> handlePetDoesNotExists(RuntimeException ex, WebRequest request) {
 
         return handleExceptionInternal(ex, provideHTTPErrorBody(ex.getLocalizedMessage(), HttpStatus.NOT_FOUND.value()),
