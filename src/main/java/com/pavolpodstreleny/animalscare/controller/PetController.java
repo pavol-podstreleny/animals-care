@@ -38,6 +38,13 @@ public class PetController {
         return transformPetEntityToDTO(petService.save(pet, petDTO.getOwnerId()));
     }
 
+    @PostMapping("/{id}")
+    public PetDTO savePetToID(@RequestBody PetDTO petDTO, @PathVariable long id) {
+        petDTO.setOwnerId(id);
+        Pet pet = Transformer.transformToEntity(petDTO, Pet.class);
+        return transformPetEntityToDTO(petService.save(pet, petDTO.getOwnerId()));
+    }
+
     private void checkPetsEmptiness(List<Pet> pets) {
         if (pets.isEmpty()) {
             throw new PetDoesNotExistException("No pets exists");
