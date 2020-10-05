@@ -34,12 +34,6 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer save(Customer customerDTO) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
@@ -52,6 +46,11 @@ public class CustomerService implements ICustomerService {
         Optional<Customer> customer = customerRepository.findByPets(pet);
         return customer.orElseThrow(
                 () -> new CustomerDoesNotExistException("Customer of pet with ID " + petID + "does not exists"));
+    }
+
+    @Override
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
     }
 
 }

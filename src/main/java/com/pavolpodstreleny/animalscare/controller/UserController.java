@@ -33,6 +33,12 @@ public class UserController {
         return transformCustomerEntityToDTO(customer);
     }
 
+    @PostMapping("/customer")
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
+        Customer customer = Transformer.transformToEntity(customerDTO, Customer.class);
+        return transformCustomerEntityToDTO(customerService.save(customer));
+    }
+
     private CustomerDTO transformCustomerEntityToDTO(Customer customer) {
         CustomerDTO customerDTO = Transformer.transformToDTO(customer, CustomerDTO.class);
         if (customer.getPets() != null) {
