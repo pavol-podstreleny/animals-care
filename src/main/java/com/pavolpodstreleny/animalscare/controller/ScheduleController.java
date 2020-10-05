@@ -42,6 +42,13 @@ public class ScheduleController {
         return schedules.stream().map(this::transformScheduleEntityToDTO).collect(Collectors.toList());
     }
 
+    @GetMapping("/customer/{customerId}")
+    public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
+        List<Schedule> schedules = scheduleService.findScheduleByCustomer(customerId);
+        checkScheduleEmptiness(schedules);
+        return schedules.stream().map(this::transformScheduleEntityToDTO).collect(Collectors.toList());
+    }
+
     private void checkScheduleEmptiness(List<Schedule> schedules) {
         if (schedules.isEmpty()) {
             throw new ScheduleDoesNotExistException("No schedule exist");

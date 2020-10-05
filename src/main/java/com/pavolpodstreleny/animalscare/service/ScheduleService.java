@@ -1,6 +1,8 @@
 package com.pavolpodstreleny.animalscare.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -53,8 +55,22 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<Schedule> findScheduleByCustomer(long customerID) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Pet> pets = petService.getPetsByOwner(customerID);
+
+        ArrayList<Schedule> finalSchedules = new ArrayList<>();
+
+        List<List<Schedule>> schedules = pets.stream().map((Pet p) -> findScheduleByPetId(p.getId()))
+                .collect(Collectors.toList());
+
+        schedules.forEach((List<Schedule> s) -> {
+            s.forEach((Schedule actualSchedule) -> {
+                if (!finalSchedules.contains(actualSchedule)) {
+                    finalSchedules.add(actualSchedule);
+                }
+            });
+        });
+
+        return finalSchedules;
     }
 
 }
