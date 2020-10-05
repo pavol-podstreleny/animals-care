@@ -7,10 +7,13 @@ import java.util.stream.Collectors;
 
 import com.pavolpodstreleny.animalscare.dto.CustomerDTO;
 import com.pavolpodstreleny.animalscare.dto.EmployeeDTO;
+import com.pavolpodstreleny.animalscare.dto.EmployeeRequestDTO;
 import com.pavolpodstreleny.animalscare.entity.Customer;
 import com.pavolpodstreleny.animalscare.entity.Employee;
+import com.pavolpodstreleny.animalscare.entity.EmployeeSkill;
 import com.pavolpodstreleny.animalscare.entity.Pet;
 import com.pavolpodstreleny.animalscare.exception.CustomerDoesNotExistException;
+import com.pavolpodstreleny.animalscare.exception.EmployeeDoesNotExistException;
 import com.pavolpodstreleny.animalscare.service.interfaces.ICustomerService;
 import com.pavolpodstreleny.animalscare.service.interfaces.IEmployeeService;
 import com.pavolpodstreleny.animalscare.utils.Transformer;
@@ -64,6 +67,15 @@ public class UserController {
         employeeService.changeAvailableDays(employeeId, daysAvailable);
     }
 
+    @GetMapping("/employee/availability")
+    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
+        DayOfWeek requiredDate = employeeDTO.getDate().getDayOfWeek();
+        Set<EmployeeSkill> requiredSkill = employeeDTO.getSkills();
+        List<Employee> employees = employeeService.findAvailableEmployees(requiredDate, requiredSkill);
+        checkEmployeeEmptiness(employees);
+        return employees.stream().map(this::transformEmployeeEntityToDTO).collect(Collectors.toList());
+    }
+
     private EmployeeDTO transformEmployeeEntityToDTO(Employee employee) {
         return Transformer.transformToDTO(employee, EmployeeDTO.class);
     }
@@ -77,6 +89,12 @@ public class UserController {
             }
         }
         return customerDTO;
+    }
+
+    private void checkEmployeeEmptiness(List<Employee> employees) {
+        if (employees.isEmpty()) {
+            throw new EmployeeDoesNotExistException("No employee exist");
+        }
     }
 
     private void checkCustomerEmptiness(List<Customer> customers) {

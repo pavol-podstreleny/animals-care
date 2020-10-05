@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -48,8 +49,9 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public List<Employee> findAvailableEmployees(DayOfWeek requiredDate, Set<EmployeeSkill> requiredSkill) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Employee> employees = employeeRepository.findEmployeeByDaysAvailable(requiredDate);
+        return employees.stream().filter((Employee e) -> e.getSkills().containsAll(requiredSkill))
+                .collect(Collectors.toList());
     }
 
     @Override
