@@ -32,6 +32,13 @@ public class PetController {
         return pets.stream().map(this::transformPetEntityToDTO).collect(Collectors.toList());
     }
 
+    @GetMapping("/owner/{ownerId}")
+    public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
+        List<Pet> pets = petService.getPetsByOwner(ownerId);
+        checkPetsEmptiness(pets);
+        return pets.stream().map(this::transformPetEntityToDTO).collect(Collectors.toList());
+    }
+
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
         Pet pet = Transformer.transformToDTO(petDTO, Pet.class);

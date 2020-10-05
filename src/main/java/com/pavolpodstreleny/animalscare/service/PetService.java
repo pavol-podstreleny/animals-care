@@ -25,6 +25,9 @@ public class PetService implements IPetService {
     @Autowired
     private PetRepository petRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
     @Override
     public Pet getPetById(long id) {
         Optional<Pet> optionalPet = petRepository.findById(id);
@@ -43,8 +46,8 @@ public class PetService implements IPetService {
 
     @Override
     public List<Pet> getPetsByOwner(long id) {
-        // TODO Auto-generated method stub
-        return null;
+        Customer customer = customerService.getByID(id);
+        return petRepository.findAllByOwner(customer);
     }
 
     @Override
