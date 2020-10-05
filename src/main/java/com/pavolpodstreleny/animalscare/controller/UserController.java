@@ -51,6 +51,12 @@ public class UserController {
         return transformEmployeeEntityToDTO(employeeService.save(employee));
     }
 
+    @PostMapping("/employee/{employeeId}")
+    public EmployeeDTO getEmployee(@PathVariable long employeeId) {
+        Employee employee = employeeService.getById(employeeId);
+        return transformEmployeeEntityToDTO(employee);
+    }
+
     private EmployeeDTO transformEmployeeEntityToDTO(Employee employee) {
         return Transformer.transformToDTO(employee, EmployeeDTO.class);
     }
