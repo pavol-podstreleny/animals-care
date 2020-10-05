@@ -1,4 +1,4 @@
-package com.pavolpodstreleny.animalscare.service.interfaces;
+package com.pavolpodstreleny.animalscare.service;
 
 import java.time.DayOfWeek;
 import java.util.List;

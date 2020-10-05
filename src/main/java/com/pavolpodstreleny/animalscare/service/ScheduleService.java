@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.pavolpodstreleny.animalscare.entity.Employee;
 import com.pavolpodstreleny.animalscare.entity.Pet;
 import com.pavolpodstreleny.animalscare.entity.Schedule;
 import com.pavolpodstreleny.animalscare.repository.ScheduleRepository;
+import com.pavolpodstreleny.animalscare.service.interfaces.IEmployeeService;
 import com.pavolpodstreleny.animalscare.service.interfaces.IPetService;
 import com.pavolpodstreleny.animalscare.service.interfaces.IScheduleService;
 
@@ -22,6 +24,9 @@ public class ScheduleService implements IScheduleService {
 
     @Autowired
     IPetService petService;
+
+    @Autowired
+    IEmployeeService employeeService;
 
     @Override
     public Schedule create(Schedule schedule, List<Long> employeeIDs, List<Long> petIDs) {
@@ -42,8 +47,8 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<Schedule> findSchedulePyEmployeeId(long employeeID) {
-        // TODO Auto-generated method stub
-        return null;
+        Employee employee = employeeService.getById(employeeID);
+        return scheduleRepository.findSchedulesByEmployees(employee);
     }
 
     @Override
