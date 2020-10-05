@@ -27,6 +27,12 @@ public class UserController {
         return customers.stream().map(this::transformCustomerEntityToDTO).collect(Collectors.toList());
     }
 
+    @GetMapping("/customer/pet/{petId}")
+    public CustomerDTO getOwnerByPet(@PathVariable long petId) {
+        Customer customer = customerService.getCustomerByPetId(petId);
+        return transformCustomerEntityToDTO(customer);
+    }
+
     private CustomerDTO transformCustomerEntityToDTO(Customer customer) {
         CustomerDTO customerDTO = Transformer.transformToDTO(customer, CustomerDTO.class);
         if (customer.getPets() != null) {

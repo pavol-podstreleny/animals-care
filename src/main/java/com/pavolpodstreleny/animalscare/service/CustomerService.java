@@ -6,7 +6,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.pavolpodstreleny.animalscare.entity.Customer;
+import com.pavolpodstreleny.animalscare.entity.Pet;
 import com.pavolpodstreleny.animalscare.exception.CustomerDoesNotExistException;
+import com.pavolpodstreleny.animalscare.exception.PetDoesNotExistException;
 import com.pavolpodstreleny.animalscare.repository.CustomerRepository;
 import com.pavolpodstreleny.animalscare.repository.PetRepository;
 import com.pavolpodstreleny.animalscare.service.interfaces.ICustomerService;
@@ -44,8 +46,12 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer getCustomerByPetId(long petID) {
-        // TODO Auto-generated method stub
-        return null;
+        Optional<Pet> optionalPet = petRepository.findById(petID);
+        Pet pet = optionalPet
+                .orElseThrow(() -> new PetDoesNotExistException("Pet with ID " + petID + " does not exists"));
+        Optional<Customer> customer = customerRepository.findByPets(pet);
+        return customer.orElseThrow(
+                () -> new CustomerDoesNotExistException("Customer of pet with ID " + petID + "does not exists"));
     }
 
 }
