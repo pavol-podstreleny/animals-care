@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.pavolpodstreleny.animalscare.dto.CustomerDTO;
+import com.pavolpodstreleny.animalscare.dto.EmployeeDTO;
 import com.pavolpodstreleny.animalscare.entity.Customer;
+import com.pavolpodstreleny.animalscare.entity.Employee;
 import com.pavolpodstreleny.animalscare.entity.Pet;
 import com.pavolpodstreleny.animalscare.exception.CustomerDoesNotExistException;
 import com.pavolpodstreleny.animalscare.service.interfaces.ICustomerService;
+import com.pavolpodstreleny.animalscare.service.interfaces.IEmployeeService;
 import com.pavolpodstreleny.animalscare.utils.Transformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ public class UserController {
 
     @Autowired
     ICustomerService customerService;
+
+    @Autowired
+    IEmployeeService employeeService;
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers() {
@@ -37,6 +43,16 @@ public class UserController {
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer customer = Transformer.transformToEntity(customerDTO, Customer.class);
         return transformCustomerEntityToDTO(customerService.save(customer));
+    }
+
+    @PostMapping("/employee")
+    public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        Employee employee = Transformer.transformToEntity(employeeDTO, Employee.class);
+        return transformEmployeeEntityToDTO(employeeService.save(employee));
+    }
+
+    private EmployeeDTO transformEmployeeEntityToDTO(Employee employee) {
+        return Transformer.transformToDTO(employee, EmployeeDTO.class);
     }
 
     private CustomerDTO transformCustomerEntityToDTO(Customer customer) {
