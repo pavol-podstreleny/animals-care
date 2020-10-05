@@ -32,6 +32,12 @@ public class PetController {
         return pets.stream().map(this::transformPetEntityToDTO).collect(Collectors.toList());
     }
 
+    @PostMapping
+    public PetDTO savePet(@RequestBody PetDTO petDTO) {
+        Pet pet = Transformer.transformToDTO(petDTO, Pet.class);
+        return transformPetEntityToDTO(petService.save(pet, petDTO.getOwnerId()));
+    }
+
     private void checkPetsEmptiness(List<Pet> pets) {
         if (pets.isEmpty()) {
             throw new PetDoesNotExistException("No pets exists");

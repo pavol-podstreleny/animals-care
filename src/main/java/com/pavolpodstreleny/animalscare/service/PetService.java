@@ -5,7 +5,9 @@ import java.util.*;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import com.pavolpodstreleny.animalscare.entity.Customer;
 import com.pavolpodstreleny.animalscare.entity.Pet;
+import com.pavolpodstreleny.animalscare.exception.CustomerDoesNotExistException;
 import com.pavolpodstreleny.animalscare.exception.PetDoesNotExistException;
 import com.pavolpodstreleny.animalscare.repository.PetRepository;
 import com.pavolpodstreleny.animalscare.service.interfaces.IPetService;
@@ -47,7 +49,21 @@ public class PetService implements IPetService {
 
     @Override
     public Pet save(Pet pet, long ownerID) {
-        // TODO Auto-generated method stub
-        return null;
+        Customer customer = em.find(Customer.class, ownerID);
+        if (customer == null) {
+            throw new CustomerDoesNotExistException("Customer for pet does not exists");
+        }
+        pet.setOwner(customer);
+        em.persist(pet);
+
+        if (customer.getPets() == null) {
+            ArrayList<Pet> pets = new ArrayList<>();
+            pets.add(pet);
+            customer.setPets(pets);
+        } else {
+            customer.getPets().add(pet);
+        }
+        return pet;
+
     }
 }
