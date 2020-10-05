@@ -56,8 +56,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public List<Employee> findAllByIDs(List<Long> ids) {
-        // TODO Auto-generated method stub
-        return null;
+        return employeeRepository.findAllById(ids);
     }
 
 }
