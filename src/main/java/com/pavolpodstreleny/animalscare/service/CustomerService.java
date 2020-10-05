@@ -39,8 +39,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<Customer> getCustomers() {
-        // TODO Auto-generated method stub
-        return null;
+        return customerRepository.findAll();
     }
 
     @Override
