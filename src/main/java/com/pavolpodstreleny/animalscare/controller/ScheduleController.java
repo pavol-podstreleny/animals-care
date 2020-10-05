@@ -21,6 +21,13 @@ public class ScheduleController {
     @Autowired
     IScheduleService scheduleService;
 
+    @PostMapping
+    public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+        Schedule schedule = Transformer.transformToEntity(scheduleDTO, Schedule.class);
+        return transformScheduleEntityToDTO(
+                scheduleService.create(schedule, scheduleDTO.getEmployeeIds(), scheduleDTO.getPetIds()));
+    }
+
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
         List<Schedule> schedules = scheduleService.getSchedules();

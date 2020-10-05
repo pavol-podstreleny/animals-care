@@ -32,8 +32,11 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public Schedule create(Schedule schedule, List<Long> employeeIDs, List<Long> petIDs) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Employee> employees = employeeService.findAllByIDs(employeeIDs);
+        List<Pet> pets = petService.findAllByIDs(petIDs);
+        schedule.setEmployees(employees);
+        schedule.setPets(pets);
+        return scheduleRepository.save(schedule);
     }
 
     @Override
