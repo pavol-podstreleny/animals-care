@@ -1,4 +1,4 @@
-package com.pavolpodstreleny.animalscare.service.interfaces;
+package com.pavolpodstreleny.animalscare.service;
 
 import java.time.DayOfWeek;
 import java.util.List;
@@ -56,8 +56,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public List<Employee> findAllByIDs(List<Long> ids) {
-        // TODO Auto-generated method stub
-        return null;
+        return employeeRepository.findAllById(ids);
     }
 
 }
