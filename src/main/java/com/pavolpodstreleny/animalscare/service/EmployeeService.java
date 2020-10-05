@@ -40,8 +40,10 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void changeAvailableDays(long employeeID, Set<DayOfWeek> availableDays) {
-        // TODO Auto-generated method stub
-
+        Employee employee = entityManager.find(Employee.class, employeeID);
+        if (employee == null)
+            throw new EmployeeDoesNotExistException(employeeID);
+        employee.setDaysAvailable(availableDays);
     }
 
     @Override

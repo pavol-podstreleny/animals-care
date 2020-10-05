@@ -1,6 +1,8 @@
 package com.pavolpodstreleny.animalscare.controller;
 
+import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.pavolpodstreleny.animalscare.dto.CustomerDTO;
@@ -55,6 +57,11 @@ public class UserController {
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         Employee employee = employeeService.getById(employeeId);
         return transformEmployeeEntityToDTO(employee);
+    }
+
+    @PutMapping("/employee/{employeeId}")
+    public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
+        employeeService.changeAvailableDays(employeeId, daysAvailable);
     }
 
     private EmployeeDTO transformEmployeeEntityToDTO(Employee employee) {
