@@ -5,13 +5,18 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.pavolpodstreleny.animalscare.entity.Schedule;
+import com.pavolpodstreleny.animalscare.repository.ScheduleRepository;
 import com.pavolpodstreleny.animalscare.service.interfaces.IScheduleService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 public class ScheduleService implements IScheduleService {
+
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     @Override
     public Schedule create(Schedule schedule, List<Long> employeeIDs, List<Long> petIDs) {
@@ -21,8 +26,7 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<Schedule> getSchedules() {
-        // TODO Auto-generated method stub
-        return null;
+        return scheduleRepository.findAll();
     }
 
     @Override
