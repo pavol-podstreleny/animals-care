@@ -55,5 +55,5 @@ Linux:
 ./mvnw spring-boot:run
 ```
 
-API should run on http://localhost:8082
+You can find all API endpoints on http://localhost:8082/swagger-ui.html
 
