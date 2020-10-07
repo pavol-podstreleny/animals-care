@@ -55,5 +55,5 @@ Linux:
 ./mvnw spring-boot:run
 ```
 
-Application should run on http://localhost:8080
+API should run on http://localhost:8082
 
