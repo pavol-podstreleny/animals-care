@@ -1,6 +1,6 @@
 # Animals Care
 
-Software as a Service [application](http://google.sk) that provides a scheduling interface for a small business that takes care of animals.
+Software as a Service [application](https://animals-care-api.herokuapp.com/swagger-ui.html) that provides a scheduling interface for a small business that takes care of animals.
 
 Following technologies were used to develop the REST API:
 - Spring Boot 
@@ -10,6 +10,7 @@ Following technologies were used to develop the REST API:
 - [Guava](https://github.com/google/guava)
 - [JUnit](https://junit.org/junit5/)
 - [H2](https://github.com/h2database/h2database)
+- [Swagger](https://swagger.io/)
 
 ## Run REST API locally
 #### 1) The first step is to clone the repository
